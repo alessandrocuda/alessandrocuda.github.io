@@ -1,0 +1,90 @@
+html, body { 
+	font-family: 'Roboto', sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+.navbar-brand{
+    font-size: 20px;
+}
+
+.icons-social i {
+	font-size: 2em;
+}
+
+
+main > .intro {
+	font-family: 'Reem Kufi', sans-serif;
+	font-size: 3.75em;
+	font-weight: 600;
+}
+
+main > .tagline {
+	font-size: 1.5rem;
+	margin: 1.5rem 0;
+	font-weight: 100;
+}
+
+.icons-social i {
+	padding: 10px;
+}
+
+.devto {
+	margin-bottom: -0.20rem;
+}
+
+.devto svg {
+	margin-bottom: -0.20rem;
+	margin-left: 0.675rem;;
+	width: 2.65rem;
+	height: 2.65rem;
+}
+
+
+html {
+  font-size: 12px; }
+  @media (min-width: 376px) {
+    html {
+      font-size: 14px; } }
+  @media (min-width: 426px) {
+    html {
+      font-size: 16px; } }
+  @media (min-width: 769px) {
+    html {
+      font-size: 18px; } }
+  @media (min-width: 1440px) {
+    html {
+      font-size: 20px; } }
+
+@media only screen and (orientation: landscape) {
+    /* css rules */
+  html {
+  font-size: 12px; }
+  @media (min-height: : 376px) {
+    html {
+      font-size: 14px; } }
+  @media (min-height: 426px) {
+    html {
+      font-size: 16px; } }
+  @media (min-height: 769px) {
+    html {
+      font-size: 18px; } }
+  @media (min-height: 1440px) {
+    html {
+      font-size: 20px; } }
+
+  body {
+  font-size: 14px; }
+  @media (min-height: : 376px) {
+    body {
+      font-size: 14px; } }
+  @media (min-height: 426px) {
+    body {
+      font-size: 16px; } }
+  @media (min-height: 769px) {
+    body {
+      font-size: 18px; } }
+  @media (min-height: 1440px) {
+    body {
+      font-size: 20px; } }
+}

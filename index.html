@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Alessandro Cudazzo, Computer Engineer student. Computer science and maths is exatly what i love!.">
+    <meta name="author" content="">
+    <meta name="theme-color" content="#485564" />
+
+	<title>Alessandro Cudazzo</title>
+
+    <link rel="icon" href="img/letter-a.ico">
+
+	 <!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+	<link href="https://fonts.googleapis.com/css?family=Reem+Kufi|Roboto:300" rel="stylesheet">
+	<link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/styles_home.css">
+	<link rel="stylesheet" href="css/themes/grey-white.css">
+	<link href="css/sticky-footer-navbar.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"   
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   
+            crossorigin="anonymous">
+    </script>
+
+	<noscript>
+	    <style>
+		    body {
+			    opacity: 1;
+		    }
+	    </style>
+	</noscript>
+
+</head>
+<body id="home">
+  <div id="header"></div>
+  <script>
+  	$("#header").load("https://alessandrocuda.github.io/partial/header_home.html", function() {
+	  	console.log( "Load was performed." );
+		$('#navbarsExample07').on('hidden.bs.collapse', function () {
+		  // do something…
+		  $('#navbarmy').css("background-color", "transparent");
+		  $('#navbarmy').removeClass( "navbar-light" ).addClass( "navbar-dark" );
+		})
+
+		$('#navbarsExample07').on('show.bs.collapse', function(){
+			$('#navbarmy').css("background-color", "#f5f5f5");
+			$('#navbarmy').removeClass( "navbar-dark" ).addClass( "navbar-light" );
+		})
+	});
+  </script>
+
+	<!-- Begin page content -->
+			<main>
+				<div class="intro">Hello, I'm Alessandro!</div>
+				<div class="tagline">Computer Science and Maths is exactly what i love!</div>
+				<h5>
+					Contact me at <a class="badge badge-secondary" 		href="https://twitter.com/alessandrocuda">@alessandrocuda</a> or by <a class="badge badge-secondary" href="mailto:alessandro@cudazzo.com">mail</a>.
+				</h5>
+
+				<div class="tagline"> 
+				<!-- Find your icons from here - https://fontawesome.com/icons?d=gallery&s=brands -->
+				<div class="icons-social">
+					<a target="_blank" href="https://github.com/alessandrocuda"><i class="fab fa-github"></i></a>
+					<a target="_blank" href="https://twitter.com/alessandrocuda""><i class="fab fa-twitter"></i></a>
+					<a target="_blank" href="https://www.linkedin.com/in/alessandro-cudazzo-0207b1137/"><i class="fab fa-linkedin"></i></a>
+					<a target="_blank" href="https://medium.com/@alessandrocuda"><i class="fab fa-medium"></i></a>
+			    </div>
+			</main>
+		
+	
+	  <div id="footer"></div>
+	  <script>
+	  $("#footer").load("https://alessandrocuda.github.io/partial/footer.html");
+	  </script>
+
+	<div id="particles-js"></div>
+	<script src="js/particles.js"></script>
+	<script src="js/app.js"></script>
+
+
+	<!--load html content -->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+	<script src="js/javascript.js"></script>
+	<script src="js/script.js"></script>
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="An email alert, when someone logs in to your server via ssh, can be pretty useful to track who is actually using your server!">
+    <meta name="author" content="Alessandro Cudazzo">
+    <meta name="theme-color" content="#485564" />
+    
+    <meta property="og:title" content="SSH login alerts with sendmail and PAM">
+    <meta property="og:image" content="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/notif_osx.png">
+    <meta property="og:description" content="An email alert, when someone logs in to your server via ssh, can be pretty useful to track who is actually using your server!">
+    <meta property="og:url" content="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/">
+    <meta name="twitter:card" content="summary_large_image">
+
+   
+
+
+    <link rel="icon" href="https://alessandrocuda.github.io/img/letter-a.ico">
+
+    <title>SSH login alerts with sendmail and PAM</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css?family=Reem+Kufi|Roboto:300" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://alessandrocuda.github.io/css/styles.css">
+
+    <link rel="stylesheet" type="text/css" href="https://alessandrocuda.github.io/css/bootstrap-social.css">
+
+
+    <!-- Custom styles for this template -->
+    <link href="https://alessandrocuda.github.io/css/sticky-footer-navbar.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"   
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   
+            crossorigin="anonymous">
+    </script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-111730069-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body id="blog">
+  
+  <div id="header"></div>
+  <script>
+    $("#header").load("https://alessandrocuda.github.io/partial/header.html");
+  </script>
+
+    <!-- Begin page content -->
+
+    <div class="container" style="padding-top: 100px; padding-bottom: 32px; max-width: 700px">
+
+      <main role="main">
+        <div class="container">
+          <div class="media">
+          <img class="align-self-center mr-3 img-fluid" src="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/logo.png" alt="logo">
+          <div class="media-body">
+            <h3 class="mt-0">SSH login alert with sendmail and PAM</h3>
+            Alessandro Cudazzo &middot; February 15, 2018
+          </div>
+        </div>
+        <hr>
+        <p>One thing, that usually come first when you setup a Virtual Private Server (VPS) is security and enabling ssh exposes you to some hack activity! Yep, internet can be a wild and scary place sometimes!</p>
+
+        <figure class="text-center">
+          <img src="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/shp.gif" class="figure-img img-fluid rounded" alt="shary place">
+          <figcaption class="figure-caption text-center">Internet can be a wild and scary place sometimes!</figcaption>
+        </figure>
+        
+        <p>
+          An email alert, when someone logs in to your server via ssh, can be pretty useful to track who is actually using your server! But Keep in mind that this trick is not enough to secure your server! And here you are more useful basic advices before seeing how to set up our SSH alert:
+        </p>
+        <div class="alert alert-primary" role="alert">
+            Layered security is the key!        
+        </div>
+        <ul >
+          <li> <b>Disable SSH login for root user</b></li>
+          <li><b>Change your default ssh port (22)</b>,<br> it can lead to a drop by the 98% of attacks’ chance, as Recon Bots look for IP addresses with open default ports for some services like ssh; </li>
+          <li><b>Use fail2ban to prevent brute-force attacks on your new ssh port,</b> it provides an automated way to identify a possible break-in and acts upon them quickly with a pitiless ban!</li>
+          <li>If you want to increase your security with password access over ssh use <b>port knocking or 2FA</b> otherwise switch to <b>SSH key</b>.</li>
+        </ul>
+        <br>
+        <p>Now let’s go back to the main topic, the article will be divided into 2 part:</p>
+        <ol>
+          <li>Setup and get sendmail ready;</li>
+          <li>How to get an email alert on a ssh login using sendmail and PAM;</li>
+        </ol>
+        
+        <hr width="50%" style="margin-top: 30px; margin-bottom: 30px;">
+        <section>
+          <h2>1: Setup and get sendmail ready:</h1>
+          <p><b>Sendmail</b> is an MTA (mail transfer agent) that supports many kinds of mail-transfer and delivery methods, including the Simple Mail Transfer Protocol (SMTP) used for email transport over the Internet
+          </p>
+          <p>On my VPS I use Debian 9, so let’s see how to setup sendmail:</p>
+          <br>
+          <h3>Installation:</h3>
+        <div class="card">
+        <div class="card-body">
+            <pre style="margin-bottom: 0px;"><code>$ sudo apt-get install sendmail
+//check your installation folder
+$ sudo which sendmail 
+//output: /usr/sbin/sendmail
+//check if sendmail is running
+$ ps -xa | grep sendmail | grep -v grep
+//output: 2503 ? Ss 0:00 sendmail: MTA: accepting connection</code></pre>
+        </div>
+        </div>
+        <br>
+        <p>now, we can test sendmail using this command:</p>
+        <div class="card">
+        <div class="card-body">
+            <pre style="margin-bottom: 0px;"><code>$ echo "Subject: test" | sudo sendmail -v your@email.com
+//usually mail delivery always happens in background 
+//but with -v options you will enable verbose logging 
+//for debugging purposes.
+</code></pre>
+        </div>
+        </div>
+        <br>
+          <br>
+        <h3>Troubleshooting:</h3>
+        <figure class="text-center">
+          <img src="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/sad.gif" class="figure-img img-fluid rounded" alt="shary place">
+          <figcaption class="figure-caption text-center">Don’t be depressed like Marvin, you may find your answer here!</figcaption>
+        </figure>
+
+        <p>If you encounter some issues, chances are that the answer to your problems are in <code>/var/log/mail.err </code> .</p>
+        
+        <ul>
+          <li style="margin-bottom: 10px;"><b>Make sure that no other application is interferring with sendmail:</b> <br>
+          other mail services/agent could interfere with sendmail. Check if any of sendmail’s default ports are in use by other applications with: <br>
+          <kbd>sudo netstat -tulpn | grep -E -w '25|587' </kbd> <br>
+          If you get any results please remove/stop the application running on that port.<br>
+          </li>
+          <li style="margin-bottom: 10px;"><b>You must be able to accept incoming connections on localhost’s port 25:</b><br>
+          if you use a firewall (e.g. IPTables), remember to open it! An easy way to test if port 25 is open is:<br>
+          <kbd>$ telnet localhost 25 </kbd> <br>
+          If the response is “Connected”, then everything is fine, otherwise you’ll have to open that port on your firewall.
+          </li>
+          <li style="margin-bottom: 10px;"><b>Sendmail is slower to send mail:</b> <br>
+          check if in your <code>/var/log/mail.err</code> there is this error: <br> <br>
+          <samp>yourDomainName sendmail[****]: My unqualified host name (yourDomainName) unknown; sleeping for retry </samp> <br> <br>
+          To solve this issue, open your hosts file with vim or your favorite editor:<br>
+          <kbd>$ sudo vim /etc/hosts </kbd><br>
+          and change the first line like this:<br><br>
+          <samp>127.0.0.1 localhost localhost.localdomain yourDomainName </samp>
+          and save it!
+          </li>
+        </ul>
+        </section>
+        <hr width="50%" style="margin-top: 30px; margin-bottom: 30px;">
+        <section>
+          <h2>2: How to get an email alert on a SSH login using sendmail and PAM:</h1>
+          <p>A pluggable authentication module (PAM) is a mechanism to integrate multiple low-level authentication schemes into a high-level application programming interface(API).
+            <br><b>tl;dr</b> <i>PAM handles authentication for multiple services on Linux OS.</i>
+          </p>
+          <p>On my VPS I use Debian 9, so let’s see how to setup sendmail:</p>
+          <figure class="text-center">
+          <img src="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/alert.gif" class="figure-img img-fluid rounded" alt="shary place">
+          <figcaption class="figure-caption text-center">Let’s go and get our alert!</figcaption>
+          </figure>
+          <p>Each PAM-aware software creates a file in the <code>/etc/pam.d/</code>. Such file controls how PAM will treat new connections and which rules follow for authentication: in our case, openSSH server produces the file <code>/etc/pam.d/sshd</code>.<br>
+          <b>We can use this file to set up a script that would run whenever a login happens via ssh.</b>
+          <p>
+          <br>
+          <h3>Shell Script that sends alerts with sendmail at login:</h3>
+          <p>Let’s create our script, you are free to choose where to locate your script but here there is some tips:</p>
+          <ol>
+            <li  style="margin-bottom: 10px;">
+              create a new folder in <code>/etc/pam.scripts</code> : <br>
+              <kbd>$ sudo mkdir /etc/pam.scripts</kbd>
+            </li>  
+            <li  style="margin-bottom: 10px;">
+              set folder’s permissions to <code>0755</code> :<br>
+              <kbd>$ sudo chmod 0755 /etc/pam.scripts</kbd>
+            </li>
+            <li  style="margin-bottom: 10px;">
+              create our script: <br>
+              <kbd>$ sudo touch /etc/pam.scripts/ssh_alert.sh</kbd>
+            </li>
+            <li  style="margin-bottom: 10px;">
+              for security reasons, you should allow just root user to write and exec the script:<br>
+              <kbd>$ sudo chmod 0700 /etc/pam.script/ssh_alert.sh<br></kbd>
+              <kbd>$ sudo chown root:root /etc/pam.scripts/ssh_alert.sh</kbd>
+            </li>
+          </ol>
+          <p>now use your favorite editor to edit the file and copy and paste this:</p>
+          <script src="https://gist.github.com/alessandrocuda/88b83a83000a04e1e01df68731d33a76.js"></script>
+          
+          <br>
+          <h3>Configuring /etc/pam.d/sshd</h3>
+          <p>This is the final step — I know, finally 😄 — we are going to add a line at the end of <code>/etc/pam.d/sshd</code></p>
+          <div class="card">
+            <div class="card-body">
+              <pre style="margin-bottom: 0px;"><code>...
+# SSH Alert script
+session required pam_exec.so /etc/pam.scripts/ssh_alert.sh
+</code></pre>
+            </div>
+          </div>
+          <br>
+          <p>(don’t forget to make sure that your script is executable)
+          Now, you can just log in via ssh to check if the alert works! 
+          You won’t need to restart any services, so just have fun!
+          </p>
+          <figure class="text-center">
+          <img src="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/notif_osx.png" class="figure-img img-fluid rounded" alt="shary place">
+          </figure>
+          <br>
+          <figure class="text-center">
+          <img src="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/clap.gif" class="figure-img img-fluid rounded" alt="shary place">
+          <figcaption class="figure-caption text-center">Good job! And see you next!</figcaption>
+          </figure>
+        </section>
+        <hr width="50%" style="margin-top: 30px; margin-bottom: 30px;">
+        <p><b> <i>If you want to know more about PAM, I’d suggest you to check these links:</i></b></p>
+        <ul class="list-group">
+          <li class="list-group-item"><a href="https://linux.die.net/man/5/pam.d">pam.d(5) - Linux man page</a></li>
+          <li class="list-group-item"><a href="https://linux.die.net/man/8/pam_exec">pam_exec(8) - Linux man page</a></li>
+        </ul>
+        <hr width="50%" style="margin-top: 30px; margin-bottom: 30px;">
+              <p>Share and comments:</p>
+              <a 
+                href="https://twitter.com/home?status=https%3A//alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/" 
+                onclick="window.open(this.href, 'newwindow', 'width=400, height=500'); return false;" 
+                class="btn btn-social-icon btn-twitter text-white"> <span class="fab fa-twitter"></span> 
+              </a>
+              <a 
+                href="https://www.facebook.com/sharer/sharer.php?u=https%3A//alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/"
+                onclick="window.open(this.href, 'newwindow', 'width=400, height=500'); return false;"
+                class="btn btn-social-icon btn-facebook text-white"> <span class="fab fa-facebook"></span> 
+              </a>
+              <a 
+                href="https://plus.google.com/share?url=https%3A//alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/" 
+                onclick="window.open(this.href, 'newwindow', 'width=400, height=500'); return false;"
+                class="btn btn-social-icon btn-google text-white"> <span class="fab fa-google"></span> 
+              </a>
+              <a 
+                href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A//alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/&title=&summary=&source=" 
+                onclick="window.open(this.href, 'newwindow', 'width=400, height=500'); return false;"
+                class="btn btn-social-icon btn-linkedin text-white"> <span class="fab fa-linkedin"></span> 
+              </a>
+        <div id="disqus_thread"></div>
+        <script>
+
+        /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        /*
+        var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        */
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://alessandrocudazzo-it.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </main>
+    </div>
+
+    <div id="footer"></div>
+    <script>
+      $( "#footer" ).load( "https://alessandrocuda.github.io/partial/footer.html");
+    </script>
+    <!--load html content -->
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://alessandrocuda.github.io/js/javascript.js"></script>
+
+  </body>
+</html>
