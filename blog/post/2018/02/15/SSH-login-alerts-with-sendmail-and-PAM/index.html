@@ -8,15 +8,15 @@
     <meta name="theme-color" content="#485564" />
     
     <meta property="og:title" content="SSH login alerts with sendmail and PAM">
-    <meta property="og:image" content="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/notif_osx.png">
+    <meta property="og:image" content="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/notif_osx.png">
     <meta property="og:description" content="An email alert, when someone logs in to your server via ssh, can be pretty useful to track who is actually using your server!">
-    <meta property="og:url" content="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/">
+    <meta property="og:url" content="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/">
     <meta name="twitter:card" content="summary_large_image">
 
    
 
 
-    <link rel="icon" href="https://alessandrocuda.github.io/img/letter-a.ico">
+    <link rel="icon" href="https://alessandrocudazzo.it/img/letter-a.ico">
 
     <title>SSH login alerts with sendmail and PAM</title>
 
@@ -25,13 +25,13 @@
 
     <link href="https://fonts.googleapis.com/css?family=Reem+Kufi|Roboto:300" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://alessandrocuda.github.io/css/styles.css">
+    <link rel="stylesheet" href="https://alessandrocudazzo.it/css/styles.css">
 
-    <link rel="stylesheet" type="text/css" href="https://alessandrocuda.github.io/css/bootstrap-social.css">
+    <link rel="stylesheet" type="text/css" href="https://alessandrocudazzo.it/css/bootstrap-social.css">
 
 
     <!-- Custom styles for this template -->
-    <link href="https://alessandrocuda.github.io/css/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="https://alessandrocudazzo.it/css/sticky-footer-navbar.css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"   
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   
@@ -53,7 +53,7 @@
   
   <div id="header"></div>
   <script>
-    $("#header").load("https://alessandrocuda.github.io/partial/header.html");
+    $("#header").load("https://alessandrocudazzo.it/partial/header.html");
   </script>
 
     <!-- Begin page content -->
@@ -63,7 +63,7 @@
       <main role="main">
         <div class="container">
           <div class="media">
-          <img class="align-self-center mr-3 img-fluid" src="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/logo.png" alt="logo">
+          <img class="align-self-center mr-3 img-fluid" src="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/logo.png" alt="logo">
           <div class="media-body">
             <h3 class="mt-0">SSH login alert with sendmail and PAM</h3>
             Alessandro Cudazzo &middot; February 15, 2018
@@ -73,7 +73,7 @@
         <p>One thing, that usually come first when you setup a Virtual Private Server (VPS) is security and enabling ssh exposes you to some hack activity! Yep, internet can be a wild and scary place sometimes!</p>
 
         <figure class="text-center">
-          <img src="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/shp.gif" class="figure-img img-fluid rounded" alt="shary place">
+          <img src="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/shp.gif" class="figure-img img-fluid rounded" alt="shary place">
           <figcaption class="figure-caption text-center">Internet can be a wild and scary place sometimes!</figcaption>
         </figure>
         
@@ -130,7 +130,7 @@ $ ps -xa | grep sendmail | grep -v grep
           <br>
         <h3>Troubleshooting:</h3>
         <figure class="text-center">
-          <img src="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/sad.gif" class="figure-img img-fluid rounded" alt="shary place">
+          <img src="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/sad.gif" class="figure-img img-fluid rounded" alt="shary place">
           <figcaption class="figure-caption text-center">Don’t be depressed like Marvin, you may find your answer here!</figcaption>
         </figure>
 
@@ -166,7 +166,7 @@ $ ps -xa | grep sendmail | grep -v grep
           </p>
           <p>On my VPS I use Debian 9, so let’s see how to setup sendmail:</p>
           <figure class="text-center">
-          <img src="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/alert.gif" class="figure-img img-fluid rounded" alt="shary place">
+          <img src="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/alert.gif" class="figure-img img-fluid rounded" alt="shary place">
           <figcaption class="figure-caption text-center">Let’s go and get our alert!</figcaption>
           </figure>
           <p>Each PAM-aware software creates a file in the <code>/etc/pam.d/</code>. Such file controls how PAM will treat new connections and which rules follow for authentication: in our case, openSSH server produces the file <code>/etc/pam.d/sshd</code>.<br>
@@ -214,11 +214,11 @@ session required pam_exec.so /etc/pam.scripts/ssh_alert.sh
           You won’t need to restart any services, so just have fun!
           </p>
           <figure class="text-center">
-          <img src="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/notif_osx.png" class="figure-img img-fluid rounded" alt="shary place">
+          <img src="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/notif_osx.png" class="figure-img img-fluid rounded" alt="shary place">
           </figure>
           <br>
           <figure class="text-center">
-          <img src="https://alessandrocuda.github.io/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/clap.gif" class="figure-img img-fluid rounded" alt="shary place">
+          <img src="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/clap.gif" class="figure-img img-fluid rounded" alt="shary place">
           <figcaption class="figure-caption text-center">Good job! And see you next!</figcaption>
           </figure>
         </section>
@@ -275,14 +275,14 @@ session required pam_exec.so /etc/pam.scripts/ssh_alert.sh
 
     <div id="footer"></div>
     <script>
-      $( "#footer" ).load( "https://alessandrocuda.github.io/partial/footer.html");
+      $( "#footer" ).load( "https://alessandrocudazzo.it/partial/footer.html");
     </script>
     <!--load html content -->
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    <script src="https://alessandrocuda.github.io/js/javascript.js"></script>
+    <script src="https://alessandrocudazzo.it/js/javascript.js"></script>
 
   </body>
 </html>
