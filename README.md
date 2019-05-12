@@ -1,6 +1,31 @@
+# Alessandro Cudazzo's Personal Website
+This is my personal website, with a landing page, blog, list projects and a resume pages.
+
+The site is available at - https://alessandrocudazzo.it. It has been hosted using Github pages.
+
+## Stack
+- HTML, CSS, JS
+- [Bootstrap](https://getbootstrap.com/ ): As CSS framework
+- [particles.js](https://vincentgarreau.com/particles.js/ ): Used for the landing page, helped to create the particles effect
+- [Disqus](https://disqus.com/): as comment plug-in
+
+## Contributing
+ 
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request :D
+ 
+## History
+ 
+Version 0.1 (2019-05-10) - adding all the website, with README and LICENCE
+
+## License
+
 MIT License
 
-Copyright (c) 2018 Dinesh Pandiyan
+Copyright (c) 2018 Alessandro Cudazzo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
