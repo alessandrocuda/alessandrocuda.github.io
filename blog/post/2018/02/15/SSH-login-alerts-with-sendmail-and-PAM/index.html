@@ -53,7 +53,7 @@
   
   <div id="header"></div>
   <script>
-    $("#header").load("https://alessandrocudazzo.it/partial/header.html");
+    $("#header").load("/partial/header.html");
   </script>
 
     <!-- Begin page content -->
@@ -63,7 +63,7 @@
       <main role="main">
         <div class="container">
           <div class="media">
-          <img class="align-self-center mr-3 img-fluid" src="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/logo.png" alt="logo">
+          <img class="align-self-center mr-3 img-fluid" src="/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/logo.png" alt="logo">
           <div class="media-body">
             <h3 class="mt-0">SSH login alert with sendmail and PAM</h3>
             Alessandro Cudazzo &middot; February 15, 2018
@@ -73,7 +73,7 @@
         <p>One thing, that usually come first when you setup a Virtual Private Server (VPS) is security and enabling ssh exposes you to some hack activity! Yep, internet can be a wild and scary place sometimes!</p>
 
         <figure class="text-center">
-          <img src="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/shp.gif" class="figure-img img-fluid rounded" alt="shary place">
+          <img src="/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/shp.gif" class="figure-img img-fluid rounded" alt="shary place">
           <figcaption class="figure-caption text-center">Internet can be a wild and scary place sometimes!</figcaption>
         </figure>
         
@@ -130,7 +130,7 @@ $ ps -xa | grep sendmail | grep -v grep
           <br>
         <h3>Troubleshooting:</h3>
         <figure class="text-center">
-          <img src="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/sad.gif" class="figure-img img-fluid rounded" alt="shary place">
+          <img src="/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/sad.gif" class="figure-img img-fluid rounded" alt="shary place">
           <figcaption class="figure-caption text-center">Don’t be depressed like Marvin, you may find your answer here!</figcaption>
         </figure>
 
@@ -166,7 +166,7 @@ $ ps -xa | grep sendmail | grep -v grep
           </p>
           <p>On my VPS I use Debian 9, so let’s see how to setup sendmail:</p>
           <figure class="text-center">
-          <img src="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/alert.gif" class="figure-img img-fluid rounded" alt="shary place">
+          <img src="/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/alert.gif" class="figure-img img-fluid rounded" alt="shary place">
           <figcaption class="figure-caption text-center">Let’s go and get our alert!</figcaption>
           </figure>
           <p>Each PAM-aware software creates a file in the <code>/etc/pam.d/</code>. Such file controls how PAM will treat new connections and which rules follow for authentication: in our case, openSSH server produces the file <code>/etc/pam.d/sshd</code>.<br>
@@ -214,11 +214,11 @@ session required pam_exec.so /etc/pam.scripts/ssh_alert.sh
           You won’t need to restart any services, so just have fun!
           </p>
           <figure class="text-center">
-          <img src="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/notif_osx.png" class="figure-img img-fluid rounded" alt="shary place">
+          <img src="/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/notif_osx.png" class="figure-img img-fluid rounded" alt="shary place">
           </figure>
           <br>
           <figure class="text-center">
-          <img src="https://alessandrocudazzo.it/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/clap.gif" class="figure-img img-fluid rounded" alt="shary place">
+          <img src="/blog/post/2018/02/15/SSH-login-alerts-with-sendmail-and-PAM/img/clap.gif" class="figure-img img-fluid rounded" alt="shary place">
           <figcaption class="figure-caption text-center">Good job! And see you next!</figcaption>
           </figure>
         </section>
@@ -275,7 +275,7 @@ session required pam_exec.so /etc/pam.scripts/ssh_alert.sh
 
     <div id="footer"></div>
     <script>
-      $( "#footer" ).load( "https://alessandrocudazzo.it/partial/footer.html");
+      $( "#footer" ).load( "/partial/footer.html");
     </script>
     <!--load html content -->
 
